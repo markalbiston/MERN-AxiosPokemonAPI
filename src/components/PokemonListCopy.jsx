@@ -34,7 +34,7 @@ const PokemonListCopy = () => {
         // console.log(responseData)
         
     }
-
+ 
     },[clicked])
     // responseData.isFetched
     
