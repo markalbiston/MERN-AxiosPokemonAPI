@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+
 
 function App() {
+  let [pokemonList, setPokemonList] = useState([])
+  const onClickHandler = event => {
+    axios.get("https://pokeapi.co/api/v2/pokemon/?limit=807")
+        .then(response => {
+        console.log(response);
+        pokemonList = response.data.results;
+        console.log(pokemonList);
+        setPokemonList([...pokemonList])
+    }).catch(err=>{
+        console.log(err);
+    });
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button className="btn btn-large btn-primary mt-2" onClick={onClickHandler}>Fetch Pokemon!</button>
+      <ul className="list-group mt-4">
+        {pokemonList.map((pokemon, index) => 
+          <div key={index}>
+            <li className="list-group-item">{pokemon.name}</li>
+          </div>
+        )}
+      </ul>
+      
     </div>
   );
 }
